@@ -1,25 +1,37 @@
-# This file is for LEVEL 2 (see README.md).
-# It runs TWO containers together and lets them talk to each other:
-#   - "api"   : your Node app (built from the Dockerfile in this folder)
-#   - "redis" : an off-the-shelf Redis image pulled straight from Docker Hub
-#
-# Try it with:  docker compose up --build
+version: "3.9"
 
 services:
   api:
-    build: .              # build using the Dockerfile in this directory
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: node-api
+
     ports:
-      - "3000:3000"       # host_port:container_port
+      - "3000:3000"
+
     environment:
-      - PORT=3000
-      # "redis" here is NOT localhost — it's the service name below.
-      # Docker Compose gives each service a DNS name equal to its name,
-      # so containers can find each other without knowing IP addresses.
-      - REDIS_URL=redis://redis:6379
+      PORT: 3000
+      REDIS_URL: redis://redis:6379
+
     depends_on:
-      - redis              # start redis before api (doesn't wait for "ready", just "started")
+      - redis
+
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
+
+    container_name: redis
+
     ports:
-      - "6379:6379"        # optional: only needed if you want to reach redis from your host too
+      - "6379:6379"
+
+    restart: unless-stopped
+
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

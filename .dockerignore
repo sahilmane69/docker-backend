@@ -1,0 +1,9 @@
+# Don't copy these into the image / build context.
+# This keeps the image small and builds fast, and avoids
+# host-specific files (like your local node_modules) leaking in.
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+*.md

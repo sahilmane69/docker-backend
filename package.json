@@ -1,0 +1,14 @@
+{
+  "name": "docker-learn-backend",
+  "version": "1.0.0",
+  "description": "A tiny Express API for learning Docker",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "redis": "^4.6.13"
+  }
+}
